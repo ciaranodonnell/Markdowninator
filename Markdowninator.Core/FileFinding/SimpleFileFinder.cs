@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Markdowninator.Core.FileFinding
+namespace MDDG.Core.FileFinding
 {
     public class SimpleFileFinder : IFileFinder
     {

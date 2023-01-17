@@ -1,7 +1,7 @@
 
 using System;
 
-namespace Markdowninator.Interface;
+namespace MDDG.Interface;
 
 public interface IMarkdowninatorContainer
 {

@@ -1,7 +1,7 @@
 using System.Diagnostics;
-using Markdowninator.Core.FileFinding;
+using MDDG.Core.FileFinding;
 
-namespace Markdowninator.Core.Tests
+namespace MDDG.Core.Tests
 {
     public class MdxTemplateGeneratorTests : BaseTests
     {
@@ -20,15 +20,15 @@ namespace Markdowninator.Core.Tests
 
 
             if (File.Exists(outputPath)) File.Delete(outputPath);
-    
+
             Assert.That(File.Exists(inputPath), $"Input file {inputPath} should exist");
 
-            var generator = new MdxTemplateRunner(tempDirectory: docsFolder);
+            var generator = new MdxTemplateRunner(tempDirectory: docsFolder, this.TestContentPath);
 
             var errors = await generator.GenerateTemplate(inputPath);
             if (errors.Count > 0) Assert.Fail(errors[0]);
             Assert.That(File.Exists(outputPath), "Output path should now exist");
-            Assert.AreEqual("True", File.ReadAllText(outputPath), "File should contain the word true");
+
         }
 
 

@@ -1,2 +1,2 @@
 global using NUnit.Framework;
-global using Markdowninator.Core;
+global using MDDG.Core;

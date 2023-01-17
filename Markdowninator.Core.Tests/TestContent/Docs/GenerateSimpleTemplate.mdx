@@ -1,4 +1,8 @@
 <#@ template debug="false" hostspecific="true" language="C#" #>
 <#@ output extension=".md" #>
-<#= Markdowninator #>
-< # = Markdowninator.GetFunctionFromClass("","",false)  # >
+# This is a document about File1.cs - Test1 class
+
+It has a method called SimpleMethod:
+``` csharp
+<#= MD.GetFunctionFromClass("File1.cs","Test1","SimpleMethod",false)  #>
+```

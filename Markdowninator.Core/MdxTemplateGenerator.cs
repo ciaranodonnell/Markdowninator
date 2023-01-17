@@ -1,7 +1,7 @@
 
-using Markdowninator.Interface;
+using MDDG.Interface;
 using Mono.TextTemplating;
-namespace Markdowninator.Core;
+namespace MDDG.Core;
 
 public class MdxTemplateGenerator : TemplateGenerator, IMarkdowninatorContainer
 {

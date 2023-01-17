@@ -1,7 +1,7 @@
 using System.Diagnostics;
-using Markdowninator.Core.FileFinding;
+using MDDG.Core.FileFinding;
 
-namespace Markdowninator.Core.Tests
+namespace MDDG.Core.Tests
 {
     public class BaseTests
     {

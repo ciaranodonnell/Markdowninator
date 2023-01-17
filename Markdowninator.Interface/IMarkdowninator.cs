@@ -1,12 +1,12 @@
 
 using System;
 
-namespace Markdowninator.Interface;
+namespace MDDG.Interface;
 
 public interface IMarkdowninator
 {
 
-    string GetFunctionFromClass(string className, string functionName, bool justContents = false);
+    string GetFunctionFromClass(string fileName, string className, string functionName, bool justContents = false);
 
 
 }

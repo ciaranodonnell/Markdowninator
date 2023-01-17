@@ -1,7 +1,7 @@
 using System.Diagnostics;
-using Markdowninator.Core.FileFinding;
+using MDDG.Core.FileFinding;
 
-namespace Markdowninator.Core.Tests
+namespace MDDG.Core.Tests
 {
     public class SimpleFileFinderTests : BaseTests
     {
@@ -9,6 +9,24 @@ namespace Markdowninator.Core.Tests
         public void Setup()
         {
         }
+
+
+        [Test]
+        public void CanFindFileInRoot()
+        {
+            var finder = new SimpleFileFinder();
+
+            var projRoot = Path.GetDirectoryName(typeof(SimpleFileFinderTests).Assembly.Location);
+            var files = finder.GetFilesByPathFilter(
+                projRoot,
+                "File1.cs");
+
+            Assert.AreEqual(1, files.Count);
+            Assert.AreEqual(CodeFilePath("File1.cs"), files[0].FullPath);
+
+
+        }
+
 
         [Test]
         public void CanFindFileByName()

@@ -1,4 +1,4 @@
-﻿namespace Markdowninator.Core
+﻿namespace MDDG.Core
 {
     public interface IFileFinder
     {

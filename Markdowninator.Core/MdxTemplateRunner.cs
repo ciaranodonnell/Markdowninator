@@ -1,16 +1,19 @@
-using Markdowninator.Interface;
+using MDDG.Core.FileFinding;
+using MDDG.Interface;
 using Mono.TextTemplating;
 using System.Linq;
 
-namespace Markdowninator.Core;
+namespace MDDG.Core;
 
 public class MdxTemplateRunner
 {
     private readonly string tempDirectory;
+    private readonly string projectRootDirectory;
 
-    public MdxTemplateRunner(string tempDirectory)
+    public MdxTemplateRunner(string tempDirectory, string projectRootDirectory)
     {
         this.tempDirectory = tempDirectory;
+        this.projectRootDirectory = projectRootDirectory;
     }
 
 
@@ -20,32 +23,28 @@ public class MdxTemplateRunner
 
         string templateContent = File.ReadAllText(templateFilename);
 
-        var generator = new MdxTemplateGenerator(new Markdowninator());
-        //string.Join(", ", GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.DeclaredOnly).Select(p => p.Name));
-        //templateContent += $"<#+ public /*{typeof(IMarkdowninator).Name}*/ string Markdowninator {{ get {{ return string.Join(\", \", Host.GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.DeclaredOnly).Select(p => p.Name)); /*.GetProperty(\"Markdowninator\",System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public).GetValue(this.Host) as IMarkdowninator;*/}}}} #>";
-
-        templateContent = @"
-<#@ assembly name=""" + typeof(MdxTemplateGenerator).Assembly.Location + @""" #>
-<#@ assembly name=""" + typeof(IMarkdowninatorContainer).Assembly.Location + @""" #>
-<#@ import namespace=""" + typeof(MdxTemplateGenerator).Namespace + @""" #>
-<#@ import namespace=""" + typeof(IMarkdowninatorContainer).Namespace + @""" #>
-" + templateContent;
+        var generator = new MdxTemplateGenerator(new Markdowninator(projectRootDirectory, new SimpleFileFinder()));
 
         templateContent += @"<#+ 
-        public object Markdowninator { get { 
-           // throw new Exception($""{Host.GetType().Assembly.Location} - {typeof(MdxTemplateGenerator).Assembly.Location}"");
-        return ((MdxTemplateGenerator)Host).Markdowninator;}} #>";
+        public Markdowninator MD { get { 
+        return (Markdowninator)
+            Host.GetType().GetProperty(""Markdowninator"", 
+            System.Reflection.BindingFlags.Instance | 
+            System.Reflection.BindingFlags.Public | 
+            System.Reflection.BindingFlags.DeclaredOnly
+            ).GetValue(Host);
+        }} #>";
 
         ParsedTemplate parsed = generator.ParseTemplate(templateFilename, templateContent);
 
         TemplateSettings settings = TemplatingEngine.GetSettings(generator, parsed);
         settings.HostSpecific = true;
-        /*
+
         generator.Refs.Add(typeof(MdxTemplateGenerator).Assembly.Location);
         generator.Refs.Add(typeof(IMarkdowninator).Assembly.Location);
-        generator.Imports.Add("Markdowninator.Core");
-        generator.Imports.Add("Markdowninator.Interface");
-        */
+        generator.Imports.Add(typeof(MdxTemplateGenerator).Namespace);
+        generator.Imports.Add(typeof(IMarkdowninator).Namespace);
+
         settings.CompilerOptions = "-nullable:enable";
 
 

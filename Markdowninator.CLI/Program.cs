@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Markdowninator.CLI
+namespace MDDG.CLI
 {
     internal class Program
     {

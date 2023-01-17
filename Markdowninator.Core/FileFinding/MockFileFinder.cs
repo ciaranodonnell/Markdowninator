@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Markdowninator.Core.FileFinding
+namespace MDDG.Core.FileFinding
 {
     internal class MockFileFinder : IFileFinder
     {

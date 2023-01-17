@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Markdowninator.Core
+namespace MDDG.Core
 {
     public class FunctionExtractor
     {
@@ -36,9 +36,8 @@ namespace Markdowninator.Core
                 {
                     if (method.Identifier.Text == functionName)
                     {
-                        var lines = method.GetText().Lines.Select(tl => tl.Text);
-                        var text = string.Join(System.Environment.NewLine, lines);
-                        functions.Add(text);
+
+                        functions.Add(method.GetText().ToString());
                     }
                 }
             }
