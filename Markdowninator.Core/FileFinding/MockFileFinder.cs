@@ -5,14 +5,15 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Markdowninator.Core.FilesFinding
+namespace Markdowninator.Core.FileFinding
 {
     internal class MockFileFinder : IFileFinder
     {
         private readonly Directory directory;
 
         public class File
-        {            public string Name { get; set; }    
+        {
+            public string Name { get; set; }
             public string Contents { get; set; }
         }
 
@@ -20,13 +21,13 @@ namespace Markdowninator.Core.FilesFinding
         {
             public string Name { get; set; }
             public List<File> Files { get; set; }
-            public List<Directory> Directories{ get; set; }
+            public List<Directory> Directories { get; set; }
 
             public IEnumerable<File> GetFiles(string pattern)
             {
                 var files = new List<File>();
                 var re = pattern.Replace("*", "[A-Za-z0-1]*");
-                foreach(var file in this.Files)
+                foreach (var file in this.Files)
                 {
                     if (Regex.IsMatch(file.Name, re))
                     {
@@ -63,19 +64,24 @@ namespace Markdowninator.Core.FilesFinding
         {
             if (projectRoot == this.directory.Name)
             {
-                var pathParts = pathFilter.Split(new char[] {'/', '\\'}, StringSplitOptions.None).ToList();
+                var pathParts = pathFilter.Split(new char[] { '/', '\\' }, StringSplitOptions.None).ToList();
                 if (pathParts.Count > 1)
                 {
                     var dir = directory;
-                    for(int x=0;x<pathParts.Count-1;x++) {
-                        foreach(var subDir in dir.Directories)[x].Name == pathParts[x];
+                    for (int x = 0; x < pathParts.Count - 1; x++)
+                    {
+                        foreach (var subDir in dir.Directories)
+                        {
+                            //This needs to be turned recursive
+                            //if(subDir).Name == pathParts[x];
+                        }
                     }
                 }
             }
-            
-            
-                return new List<IFileFindResult>();
-            
+
+
+            return new List<IFileFindResult>();
+
         }
     }
 }

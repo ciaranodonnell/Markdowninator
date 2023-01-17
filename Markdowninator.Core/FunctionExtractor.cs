@@ -18,22 +18,28 @@ namespace Markdowninator.Core
             this.fileFinder = fileFinder;
         }
 
-        public string[] GetFunctionBody(string projectRoot, string pathFilter, string className,  string functionName)
+        public string[] GetFunctionBody(string projectRoot, string pathFilter, string className, string functionName)
         {
             List<string> functions = new List<string>();
 
 
-            List<string> files = fileFinder.GetFilesByPathFilter(projectRoot, pathFilter);
+            var files = fileFinder.GetFilesByPathFilter(projectRoot, pathFilter);
 
 
-            foreach(string file in files) {
-                var code = new StreamReader(file).ReadToEnd();
+            foreach (var file in files)
+            {
+                var code = new StreamReader(file.FullPath).ReadToEnd();
                 SyntaxTree tree = CSharpSyntaxTree.ParseText(code);
 
                 var methods = tree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().ToList();
                 foreach (var method in methods)
                 {
-                    if (method.Identifier.Text)
+                    if (method.Identifier.Text == functionName)
+                    {
+                        var lines = method.GetText().Lines.Select(tl => tl.Text);
+                        var text = string.Join(System.Environment.NewLine, lines);
+                        functions.Add(text);
+                    }
                 }
             }
 

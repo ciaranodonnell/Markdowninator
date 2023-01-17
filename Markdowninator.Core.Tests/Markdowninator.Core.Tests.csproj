@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -14,6 +13,16 @@
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
     <PackageReference Include="NUnit.Analyzers" Version="3.3.0" />
     <PackageReference Include="coverlet.collector" Version="3.1.2" />
+    </ItemGroup>
+
+ <ItemGroup>
+    <Content Include="TestContent\**\*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>  
   </ItemGroup>
+
+ <ItemGroup>
+   <ProjectReference Include="..\Markdowninator.Core\Markdowninator.Core.csproj" />
+ </ItemGroup>
 
 </Project>
