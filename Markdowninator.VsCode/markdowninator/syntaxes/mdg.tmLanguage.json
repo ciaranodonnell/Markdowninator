@@ -1,0 +1,111 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "MDG Template",
+    "patterns": [
+        {
+            "include": "#directiveBlock"
+        },
+        {
+            "include": "#block"
+        }
+    ],
+    "repository": {
+        "block": {
+            "patterns": [
+                {
+                    "begin": "(<#[=+]?(?!@))",
+                    "end": "(#>)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "markup.bold"
+                        }
+                    },
+                    "endCaptures": {
+                        "1": {
+                            "name": "markup.bold"
+                        }
+                    },
+                    "contentName": "source.cs",
+                    "name": "block",
+                    "patterns": [
+                        {
+                            "include": "source.cs"
+                        }
+                    ]
+                }
+            ]
+        },
+        "directiveBlock": {
+            "patterns": [
+                {
+                    "begin": "(<#@)",
+                    "end": "(#>)",
+                    "name": "markup.block.directive",
+                    "captures": {
+                        "1": {
+                            "name": "markup.bold"
+                        },
+                        "2": {
+                            "name": "markup.bold"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#directive"
+                        }
+                    ]
+                }
+            ]
+        },
+        "directive": {
+            "patterns": [
+                {
+                    "match": "(\\s+\\w+\\s+)",
+                    "name": "keyword.directive.name.mdg"
+                },
+                {
+                    "include": "#directiveProp"
+                }
+            ]
+        },
+        "directiveProp": {
+            "patterns": [
+                {
+                    "match": "(\\s*(\\w+)\\s?=\\s?(\".*?(?<!\\\\)\")\\s*)",
+                    "captures": {
+                        "2": {
+                            "name": "keyword.direcrive.key.mdg"
+                        },
+                        "3": {
+                            "name": "string.directive.value.mdg"
+                        }
+                    }
+                }
+            ]
+        },
+        "options": {
+            "patterns": [
+                {
+                    "match": "\\b(\\w+)\\b",
+                    "name": "keyword.directive.name.mdg"
+                },
+                {
+                    "name": "keyword.directive.key.mdg",
+                    "match": "\\b(namespace|extension|encoding)"
+                },
+                {
+                    "name": "string.quoted.double.mdg",
+                    "begin": "\"",
+                    "end": "\"",
+                    "patterns": [
+                        {
+                            "name": "constant.character.escape.mdg",
+                            "match": "\\\\."
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "scopeName": "source.mdg"
+}
