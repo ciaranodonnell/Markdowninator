@@ -42,8 +42,9 @@ namespace MDDG.Core
                 {
                     output.AppendLine(currentLine);
                 }
-
             }
+            if (!originalCode.EndsWith(System.Environment.NewLine))
+                return output.ToString(0, output.Length - Environment.NewLine.Length);
             return output.ToString();
         }
 
@@ -53,8 +54,14 @@ namespace MDDG.Core
             foreach (var c in originalCode)
             {
                 if (c == '\n' || c == '\r') break;
-                if (char.IsWhiteSpace(c)) sb.Append(c);
-                break;
+                if (char.IsWhiteSpace(c))
+                {
+                    sb.Append(c);
+                }
+                else
+                {
+                    break;
+                }
             }
             return sb.ToString();
         }
