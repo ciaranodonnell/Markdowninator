@@ -37,7 +37,7 @@ namespace MDDG.Core
                     if (method.Identifier.Text == functionName)
                     {
 
-                        functions.Add(method.GetText().ToString());
+                        functions.Add(method.GetText().ToString().RemoveExcessIdentation());
                     }
                 }
             }
